@@ -53,13 +53,14 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.16.1'
 }
 afterEvaluate {
-    publishing{
-        publications{
-            release(MavenPublication){
+    publishing {
+        publications {
+            release(MavenPublication) {
                 from components.release
+
                 groupId = 'com.github.ei1de'
                 artifactId = 'helper_lib'
-                version = "1.1"
+                version = "1.3"
             }
         }
     }
