@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -50,4 +51,16 @@ dependencies {
     implementation "com.android.installreferrer:installreferrer:2.2"
     //JSoup
     implementation 'org.jsoup:jsoup:1.16.1'
+}
+afterEvaluate {
+    publishing{
+        publications{
+            release(MavenPublication){
+                from components.release
+                groupId = 'com.github.ei1de'
+                artifactId = 'helper_lib'
+                version = "1.1"
+            }
+        }
+    }
 }
