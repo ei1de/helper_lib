@@ -22,21 +22,25 @@ class ResponseCallback(
         if (response.isSuccessful) {
             val data = response.body()?.string()
             if (data != null) {
-                val jsonData = JSONObject(data)
-                val id = jsonData.getString(id)
-                val token = jsonData.getString(token)
-                val key = jsonData.getString(key)
                 val domain = jsonData.getString(domain)
-                if (cont.isActive) cont.resume(
-                    RemoteResult.Success(
-                        RemoteData(
-                            id,
-                            token,
-                            key,
-                            domain
+                if(domain != ""){
+                    val jsonData = JSONObject(data)
+                    val id = jsonData.getString(id)
+                    val token = jsonData.getString(token)
+                    val key = jsonData.getString(key)               
+                    if (cont.isActive) cont.resume(
+                        RemoteResult.Success(
+                            RemoteData(
+                                id,
+                                token,
+                                key,
+                                domain
+                            )
                         )
                     )
-                )
+                }else{
+                    if (cont.isActive) cont.resume(RemoteResult.Error)
+                }
             } else {
                 if (cont.isActive) cont.resume(RemoteResult.Error)
             }
