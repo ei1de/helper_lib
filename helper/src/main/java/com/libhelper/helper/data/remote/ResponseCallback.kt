@@ -22,9 +22,9 @@ class ResponseCallback(
         if (response.isSuccessful) {
             val data = response.body()?.string()
             if (data != null) {
+                val jsonData = JSONObject(data)
                 val domain = jsonData.getString(domain)
                 if(domain != ""){
-                    val jsonData = JSONObject(data)
                     val id = jsonData.getString(id)
                     val token = jsonData.getString(token)
                     val key = jsonData.getString(key)               
