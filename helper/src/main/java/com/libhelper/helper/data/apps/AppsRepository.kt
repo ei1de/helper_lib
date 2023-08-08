@@ -46,7 +46,7 @@ class AppsRepository(
         return build(builder, deep, afUserId)
     }
 
-    private fun build(builder: Uri.Builder, deep: String, afUserId: String,): String {
+    private fun build(builder: Uri.Builder, deep: String, afUserId: String): String {
         val subName = "rta".caesar()
         val result = mutableMapOf<String, String>()
         val campaign = if (deep != "") deep else data?.get(CAMPAIGN).toString()
