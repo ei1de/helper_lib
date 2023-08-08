@@ -58,7 +58,7 @@ afterEvaluate {
 
                 groupId = 'com.github.ei1de'
                 artifactId = 'helper_lib'
-                version = "1.3"
+                version = "3.0"
             }
         }
     }
