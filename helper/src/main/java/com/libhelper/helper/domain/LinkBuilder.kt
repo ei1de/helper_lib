@@ -13,29 +13,9 @@ class LinkBuilder(
     private val phone: PhoneRepository,
     private val referrer: ReferrerRepository,
     private val fb: FbDeepRepository,
-    private val remote: ()->RemoteResult,
+    private val remote: suspend ()->RemoteResult,
 ) {
     class Builder {
-        private var baseUrl: String = ""
-        private var id: String = ""
-        private var token: String = ""
-        private var key: String = ""
-        private var domain: String = ""
-        fun setRemoteData(
-            baseUrl: String,
-            id: String,
-            token: String,
-            key: String,
-            domain: String
-        ): Builder {
-            this.baseUrl = baseUrl
-            this.id = id
-            this.token = token
-            this.key = key
-            this.domain = domain
-            return this
-        }
-
         private var devKey: String = ""
         fun setAppsKey(key: String): Builder {
             devKey = key
@@ -48,8 +28,8 @@ class LinkBuilder(
             return this
         }
 
-        private lateinit var remoteCallback:(()->RemoteResult)
-        fun setRemoteConfigFetcher(remoteC:()->RemoteResult):Builder{
+        private lateinit var remoteCallback:(suspend ()->RemoteResult)
+        fun setRemoteConfigFetcher(remoteC:suspend ()->RemoteResult):Builder{
             remoteCallback = remoteC
             return this
         }
