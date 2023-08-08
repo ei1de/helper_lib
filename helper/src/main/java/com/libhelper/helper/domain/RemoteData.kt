@@ -1,11 +1,11 @@
-package com.libhelper.helper.data.remote
+package com.libhelper.helper.domain
 
 
 data class RemoteData(
     val id: String,
     val token: String,
     val key: String,
-    val final: String,
+    val domain: String,
 )
 
 sealed interface RemoteResult {

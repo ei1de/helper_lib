@@ -11,12 +11,10 @@ import kotlin.coroutines.resume
 
 class AppsRepository(
     private val devKey: String,
-    private val afUserId: String,
-    private val sendOneSignal: (String?, String) -> Unit,
     private val record: (Throwable) -> Unit,
 ) {
     private var data: MutableMap<String, Any>? = null
-    suspend fun fetchData(context: Context, builder: Uri.Builder, getDeep: suspend () -> String) {
+    suspend fun fetchData(context: Context, builder: Uri.Builder,afUserId: String, getDeep: suspend () -> String):String {
         data = suspendCancellableCoroutine { continuation ->
             try {
                 AppsFlyerLib.getInstance()
@@ -45,15 +43,16 @@ class AppsRepository(
             }
         }
         val deep = getDeep()
-        build(builder, deep)
+        return build(builder, deep, afUserId)
     }
 
-    private fun build(builder: Uri.Builder, deep: String) {
+    private fun build(builder: Uri.Builder, deep: String, afUserId: String,): String {
         val subName = "rta".caesar()
         val result = mutableMapOf<String, String>()
         val campaign = if (deep != "") deep else data?.get(CAMPAIGN).toString()
         val subs = campaign.split("_")
         var subN = 1
+        var push: String? = null
         for (index in 0 until if (subs.size >= 11) subs.size else 11) {
             if (subN == 1) {
                 val sub = subs.getOrNull(index).toString().split("://")
@@ -67,8 +66,7 @@ class AppsRepository(
                 result["$subName$subN"] = subs.getOrNull(index) ?: ""
                 subN += 1
             } else {
-                val push = subs.getOrNull(1)
-                sendOneSignal(push, afUserId)
+                push = subs.getOrNull(1)
                 result[PUSH] = push.toString()
             }
 
@@ -94,7 +92,7 @@ class AppsRepository(
         result.forEach {
             builder.appendQueryParameter(it.key, it.value)
         }
-
+        return push ?: "nqfzmhb".caesar()
     }
 
     companion object {
