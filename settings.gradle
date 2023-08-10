@@ -13,5 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "BaseLibHelper"
-include ':app'
 include ':helper'

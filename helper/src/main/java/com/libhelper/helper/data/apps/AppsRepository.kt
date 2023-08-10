@@ -13,13 +13,13 @@ class AppsRepository(
     private val devKey: String,
     private val record: (Throwable) -> Unit,
 ) {
-    private var data: MutableMap<String, Any>? = null
+    private var data: MutableMap<String, Any?>? = null
     suspend fun fetchData(context: Context, builder: Uri.Builder,afUserId: String, getDeep: suspend () -> String):String {
         data = suspendCancellableCoroutine { continuation ->
             try {
                 AppsFlyerLib.getInstance()
                     .init(devKey, object : AppsFlyerConversionListener {
-                        override fun onConversionDataSuccess(p0: MutableMap<String, Any>?) {
+                        override fun onConversionDataSuccess(p0: MutableMap<String, Any?>?) {
                             if (continuation.isActive) continuation.resume(p0)
                         }
 
@@ -27,7 +27,7 @@ class AppsRepository(
                             if (continuation.isActive) continuation.resume(null)
                         }
 
-                        override fun onAppOpenAttribution(p0: MutableMap<String, String>?) {
+                        override fun onAppOpenAttribution(p0: MutableMap<String, String?>?) {
                             if (continuation.isActive) continuation.resume(null)
                         }
 
